@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- 应用名称 -->
+    <string name="app_name">Todo</string>
+
+    <!-- 键盘名称 （设置里用的）-->
+    <string name="keyboard_name">托忒蒙文</string>
+
+    <!-- 按钮文本 -->
+    <string name="button_activate">激活输入法</string>
+    <string name="button_choose_ime">选择输入法</string>
+    <string name="button_share">分享</string>
+    <string name="button_copy">复制</string>
+    <string name="button_paste">粘贴</string>
+
+    <!-- 复制按钮按完的提示 -->
+    <string name="text_copied">已复制</string>
+
+    <!-- 分享按钮按完的选择框标题 -->
+    <string name="choose_app">选择应用</string>
+
+</resources>

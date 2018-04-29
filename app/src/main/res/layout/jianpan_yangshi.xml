@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.studymongolian.mongollibrary.ImeContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#dbdbdb">
+
+    <net.studymongolian.todochimee.KeyboardTodo
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:displayName="ᡐᡆᡑᡆ"
+        app:keyBorderColor="#000000"
+        app:keyBorderRadius="3dp"
+        app:keyBorderWidth="1px"
+        app:keyColor="#ffffff"
+        app:keyImageTheme="light"
+        app:keyPressedColor="#b3b3b3"
+        app:keySpacing="3dp"
+        app:popupHighlightColor="#dbdbdb"
+        app:popupTextColor="#000000"
+        app:primaryTextColor="#000000"
+        app:primaryTextSize="30sp"
+        app:secondaryTextColor="#b3b3b3" />
+
+    <net.studymongolian.mongollibrary.KeyboardQwerty
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:displayName="ᡏᡆᡊᡎᡆᠯ"
+        app:keyBorderColor="#000000"
+        app:keyBorderRadius="3dp"
+        app:keyBorderWidth="1px"
+        app:keyColor="#ffffff"
+        app:keyImageTheme="light"
+        app:keyPressedColor="#b3b3b3"
+        app:keySpacing="3dp"
+        app:popupHighlightColor="#dbdbdb"
+        app:popupTextColor="#000000"
+        app:primaryTextColor="#000000"
+        app:primaryTextSize="30sp"
+        app:secondaryTextColor="#b3b3b3" />
+
+</net.studymongolian.mongollibrary.ImeContainer>

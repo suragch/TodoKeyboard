@@ -16,10 +16,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.MongolEditText;
+import net.studymongolian.mongollibrary.MongolLabel;
+import net.studymongolian.mongollibrary.MongolToast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (keyboardIsEnabled()) {
-            Button activateButton = findViewById(R.id.btnActivate);
+            MongolLabel activateButton = findViewById(R.id.btnActivate);
             activateButton.setVisibility(View.GONE);
         }
 
@@ -61,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
         return isInputDeviceEnabled;
     }
 
-    public void onActivateButtonClick(android.view.View view) {
+    public void onActivateButtonClick(View view) {
         Intent inputSettings = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
         startActivityForResult(inputSettings, 0);
     }
 
-    public void onChooseButtonClick(android.view.View view) {
+    public void onChooseButtonClick(View view) {
         InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (im == null) return;
         im.showInputMethodPicker();
     }
 
-    public void onCopyButtonClick(android.view.View view) {
+    public void onCopyButtonClick(View view) {
         String text = editText.getText().toString();
         if (TextUtils.isEmpty(text)) return;
         int startSelection = editText.getSelectionStart();
@@ -86,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
         if (clipboard == null) return;
         clipboard.setPrimaryClip(clip);
 
-        Toast.makeText(this, R.string.text_copied, Toast.LENGTH_SHORT).show();
+        String message = getString(R.string.text_copied);
+        MongolToast.makeText(this, message, MongolToast.LENGTH_SHORT).show();
     }
 
     public void onPasteButtonClick(View view) {
@@ -115,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
 
-        // TODO hide cursor
+
+        editText.setCursorVisible(false);
 
         Bitmap bitmap = Bitmap.createBitmap(editText.getWidth(), editText.getHeight(),
                 Bitmap.Config.ARGB_8888);
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             File cachePath = new File(context.getCacheDir(), "images");
+            //noinspection ResultOfMethodCallIgnored
             cachePath.mkdirs(); // don't forget to make the directory
             FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -145,8 +148,10 @@ public class MainActivity extends AppCompatActivity {
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
             shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-            startActivity(Intent.createChooser(shareIntent, getString(R.string.choose_app)));
+            startActivity(Intent.createChooser(shareIntent, null));
         }
+
+        editText.setCursorVisible(true);
 
     }
 

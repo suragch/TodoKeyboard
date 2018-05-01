@@ -13,17 +13,17 @@
                       <PersistentState>
                         <option name="children">
                           <map>
-                            <entry key="launcher">
+                            <entry key="actionbar">
                               <value>
                                 <PersistentState>
                                   <option name="children">
                                     <map>
-                                      <entry key="foregroundImage">
+                                      <entry key="clipartAsset">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="75" />
+                                                <entry key="url" value="jar:file:/home/yonghu/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_help_outline_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,25 +33,18 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="$USER_HOME$/Documents/Learning/Computer/Programming/Android/Chimee/ClearScript/logo/logo background.png" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/Learning/Computer/Programming/Android/Chimee/ClearScript/logo/logo foreground.png" />
+                                      <entry key="outputName" value="ic_action_help" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                            <entry key="launcherLegacy">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Documents/Learning/Computer/Programming/Android/Chimee/ClearScript/logo/logo_512.png" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

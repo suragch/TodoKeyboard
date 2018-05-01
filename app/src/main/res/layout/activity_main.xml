@@ -3,98 +3,115 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        >
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-        <net.studymongolian.mongollibrary.MongolEditText
-            android:id="@+id/editText"
-            android:layout_height="wrap_content"
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            >
+
+            <net.studymongolian.mongollibrary.MongolEditText
+                android:id="@+id/editText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@android:color/white"
+                android:padding="20dp"
+                app:textSize="30sp"
+                />
+
+
+        </HorizontalScrollView>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:background="@android:color/white"
-            android:padding="20dp"
-            app:textSize="30sp"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp">
+
+            <net.studymongolian.mongollibrary.MongolLabel
+                android:id="@+id/btnActivate"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:background="@drawable/btn_default"
+                app:text="@string/button_activate"
+                android:onClick="onActivateButtonClick"
+                android:layout_marginBottom="4dp"
+                />
+
+            <net.studymongolian.mongollibrary.MongolLabel
+                android:id="@+id/btnChoose"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:background="@drawable/btn_default"
+                app:text="@string/button_choose_ime"
+                android:onClick="onChooseButtonClick" />
+
+        </LinearLayout>
 
 
-    </HorizontalScrollView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginRight="4dp"
-        android:layout_marginEnd="4dp">
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:id="@+id/btnActivate"
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:background="@drawable/btn_default"
-            app:text="@string/button_activate"
-            android:onClick="onActivateButtonClick"
-            android:layout_marginBottom="4dp"
-            />
 
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:id="@+id/btnChoose"
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:background="@drawable/btn_default"
-            app:text="@string/button_choose_ime"
-            android:onClick="onChooseButtonClick" />
+            <net.studymongolian.mongollibrary.MongolLabel
+                android:id="@+id/btnCopy"
+                android:background="@drawable/btn_default"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:text="@string/button_copy"
+                android:layout_marginBottom="2dp"
+                android:onClick="onCopyButtonClick" />
 
+            <net.studymongolian.mongollibrary.MongolLabel
+                android:id="@+id/btnPaste"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:background="@drawable/btn_default"
+                app:text="@string/button_paste"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:onClick="onPasteButtonClick" />
+
+            <net.studymongolian.mongollibrary.MongolLabel
+                android:id="@+id/btnShare"
+                android:layout_width="40dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/btn_default"
+                android:onClick="onShareButtonClick"
+                app:text="@string/button_share" />
+
+        </LinearLayout>
     </LinearLayout>
 
 
-
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:id="@+id/btnCopy"
-            android:background="@drawable/btn_default"
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            app:text="@string/button_copy"
-            android:layout_marginBottom="2dp"
-            android:onClick="onCopyButtonClick" />
-
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:id="@+id/btnPaste"
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:background="@drawable/btn_default"
-            app:text="@string/button_paste"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:onClick="onPasteButtonClick" />
-
-        <net.studymongolian.mongollibrary.MongolLabel
-            android:id="@+id/btnShare"
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/btn_default"
-            android:onClick="onShareButtonClick"
-            app:text="@string/button_share" />
-
-    </LinearLayout>
 </LinearLayout>

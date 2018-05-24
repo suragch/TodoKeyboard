@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,13 +60,28 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mi_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
+                test();
+                //Intent intent = new Intent(this, HelpActivity.class);
+                //startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void test() {
+        DatabaseManager db = new DatabaseManager(this);
+        List<Word> words = db.getAllWords();
+        StringBuilder builder = new StringBuilder();
+        for (Word word : words) {
+            String line = word.getWord()
+                    + " " + word.getFrequency()
+                    + " " + word.getFollowing() + "\n";
+            builder.append(line);
+        }
+        Log.i("TESTING", "test: " + builder.toString());
+    }
+
 
     private boolean keyboardIsEnabled() {
         String packageLocal = getPackageName();

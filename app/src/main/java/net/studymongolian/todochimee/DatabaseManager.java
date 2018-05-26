@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManagerDeleteme {
+public class DatabaseManager {
 
     private DatabaseHelper mHelper;
 

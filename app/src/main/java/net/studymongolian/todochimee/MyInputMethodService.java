@@ -1,13 +1,9 @@
 package net.studymongolian.todochimee;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.inputmethodservice.InputMethodService;
 import android.os.AsyncTask;
-import android.provider.BaseColumns;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
@@ -19,13 +15,10 @@ import net.studymongolian.mongollibrary.MongolToast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MyInputMethodService extends InputMethodService
         implements ImeContainer.OnSystemImeListener, ImeContainer.DataSource {
-
-    private static final int MAX_CANDIDATES = 10;
 
     ImeContainer imeContainer;
 
@@ -65,14 +58,15 @@ public class MyInputMethodService extends InputMethodService
         new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
     }
 
+    // TODO
     @Override
-    public void onCandidateClick(int position, String word) {
-        new RespondToCandidateClick(this).execute(word);
+    public void onCandidateClick(int position, String word, String previousWordInEditor) {
+        new RespondToCandidateClick(this).execute(word, previousWordInEditor);
     }
 
     @Override
     public void onCandidateLongClick(int position, String text) {
-        new DeleteWord(this).execute(text);
+        new DeleteWord(this, position).execute(text);
         MongolToast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
@@ -100,18 +94,6 @@ public class MyInputMethodService extends InputMethodService
             cursor.close();
             return words;
 
-//            // If so then update then send results to UI and update LV
-//            String following = "";
-//            if (cursor.moveToNext()) {
-//                following = cursor.getString(cursor
-//                        .getColumnIndex(ChimeeUserDictionary.Words.FOLLOWING));
-//            }
-//            cursor.close();
-//
-//
-//
-//            DatabaseManager db = new DatabaseManager(serviceReference.get());
-//            return db.queryWordsStartingWith(prefix, MAX_CANDIDATES);
         }
 
         @Override
@@ -139,7 +121,7 @@ public class MyInputMethodService extends InputMethodService
             Context context = serviceReference.get();
             insertUpdateWord(context, word);
 
-            updateFollowingOfPreviousWord(context, word, previousWord);
+            UserDictionary.Words.addFollowing(context, previousWord, word);
             return null;
         }
 
@@ -148,133 +130,14 @@ public class MyInputMethodService extends InputMethodService
     private static void insertUpdateWord(Context context, String word) {
         if (context == null) return;
 
-        ContentResolver resolver = context.getContentResolver();
-        String[] projection = new String[]{BaseColumns._ID,
-                UserDictionary.Words.FREQUENCY};
-        String selection = UserDictionary.Words.WORD + "=?";
-        String[] selectionArgs = {word};
-
-        Cursor cursor = null;
-        try {
-
-            cursor = resolver.query(UserDictionary.Words.CONTENT_URI, projection,
-                    selection, selectionArgs, null);
-
-            // if exists then increment frequency,
-            if (cursor != null && cursor.moveToNext()) {
-                incrementFrequency(context, cursor);
-            } else { // add word
-                UserDictionary.Words.addWord(context, word,
-                        UserDictionary.Words.DEFAULT_FREQUENCY, null);
-            }
-
-        } catch (Exception e) {
-            Log.e("AddOrUpdateDictionary", e.toString());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+        int id = UserDictionary.Words.incrementFrequency(context, word);
+        if (id < 0) {
+            UserDictionary.Words.addWord(context, word,
+                    UserDictionary.Words.DEFAULT_FREQUENCY, null);
         }
+
     }
 
-    private static void updateWordFrequency(Context context, String word) {
-        if (context == null) return;
-
-        ContentResolver resolver = context.getContentResolver();
-        String[] projection = new String[]{BaseColumns._ID,
-                UserDictionary.Words.FREQUENCY};
-        String selection = UserDictionary.Words.WORD + "=?";
-        String[] selectionArgs = {word};
-
-        Cursor cursor = null;
-        try {
-            cursor = resolver.query(UserDictionary.Words.CONTENT_URI, projection,
-                    selection, selectionArgs, null);
-            incrementFrequency(context, cursor);
-        } catch (Exception e) {
-            Log.e("AddOrUpdateDictionary", e.toString());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    private static void incrementFrequency(Context context, Cursor cursor) {
-        if (cursor == null || !cursor.moveToFirst()) return;
-
-        // Get word id from cursor
-        long id = cursor.getLong(cursor.getColumnIndex(UserDictionary.Words._ID));
-        int frequency = cursor.getInt(cursor.getColumnIndex(UserDictionary.Words.FREQUENCY));
-        frequency++;
-
-        // Update word
-        UserDictionary.Words.updateWord(context, id, frequency, null);
-    }
-
-    private static void updateFollowingOfPreviousWord(Context context, String word, String previousWord) {
-        if (TextUtils.isEmpty(previousWord)) return;
-        if (context == null) return;
-
-        ContentResolver resolver = context.getContentResolver();
-        String[] projection = new String[]{BaseColumns._ID,
-                UserDictionary.Words.WORD,
-                UserDictionary.Words.FOLLOWING};
-        String selection = UserDictionary.Words.WORD + "=?";
-        String[] selectionArgs = {previousWord};
-
-        // get previous word
-        Cursor cursor = null;
-        try {
-            cursor = resolver.query(UserDictionary.Words.CONTENT_URI, projection,
-                    selection, selectionArgs, null);
-            updateWordFollowing(context, cursor, word);
-        } catch (Exception e) {
-            Log.e("AddOrUpdateDictionary", e.toString());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    private static void updateWordFollowing(Context context, Cursor cursor, String word) {
-        if (cursor == null || !cursor.moveToFirst()) return;
-
-        // Get word id from cursor
-        long id = cursor.getLong(cursor
-                .getColumnIndex(UserDictionary.Words._ID));
-        String following = cursor.getString(cursor
-                .getColumnIndex(UserDictionary.Words.FOLLOWING));
-
-        // stick thisWord into following
-        following = reorderFollowing(word, following);
-
-        // Update word
-        UserDictionary.Words.updateWord(context, id,
-                UserDictionary.Words.UNDEFINED_FREQUENCY, following);
-    }
-
-    private static String reorderFollowing(String wordToAdd, String following) {
-
-        if (TextUtils.isEmpty(following)) {
-            return wordToAdd;
-        } else {
-            String[] followingSplit = following.split(",");
-            StringBuilder builder = new StringBuilder();
-            builder.append(wordToAdd);
-            int counter = 0;
-            for (String item : followingSplit) {
-                if (!item.equals(wordToAdd)) {
-                    builder.append(",").append(item);
-                }
-                counter++;
-                if (counter >= UserDictionary.MAX_FOLLOWING_WORDS)
-                    break;
-            }
-            return builder.toString();
-        }
-    }
 
     private static class RespondToCandidateClick extends AsyncTask<String, Integer, List<String>> {
 
@@ -288,17 +151,12 @@ public class MyInputMethodService extends InputMethodService
         protected List<String> doInBackground(String... params) {
             String word = params[0];
             String previousWord = params[1];
-            Context context = serviceReference.get();
-
-            updateWordFrequency(context, word);
-            updateFollowingOfPreviousWord(context, word, previousWord);
-            return getFollowing(word);
-        }
+            MyInputMethodService service = serviceReference.get();
 
 
-
-        private List<String> getFollowing(String word) {
-            return null;
+            UserDictionary.Words.incrementFrequency(service, word);
+            UserDictionary.Words.addFollowing(service, previousWord, word);
+            return UserDictionary.Words.getFollowing(service, word);
         }
 
         @Override
@@ -306,33 +164,28 @@ public class MyInputMethodService extends InputMethodService
             MyInputMethodService service = serviceReference.get();
             if (service == null) return;
             if (followingWords.size() == 0) {
-                // TODO service.imeContainer.clearCandidates();
+                service.imeContainer.clearCandidates();
             } else {
                 service.imeContainer.setCandidates(followingWords);
             }
         }
-
-        private List<String> getFollowingWords(String followingString) {
-            String[] followingSplit = followingString.split(",");
-            return new ArrayList<>(Arrays.asList(followingSplit));
-        }
-
     }
 
     private static class DeleteWord extends AsyncTask<String, Integer, String> {
 
         private WeakReference<MyInputMethodService> serviceReference;
+        private int index;
 
-        DeleteWord(MyInputMethodService context) {
+        DeleteWord(MyInputMethodService context, int index) {
             serviceReference = new WeakReference<>(context);
+            this.index = index;
         }
 
         @Override
         protected String doInBackground(String... params) {
             String word = params[0];
             Context context = serviceReference.get();
-            DatabaseManager db = new DatabaseManager(context);
-            int numberOfWordsDeleted = db.deleteWord(word);
+            int numberOfWordsDeleted = UserDictionary.Words.deleteWord(context, word);
             if (numberOfWordsDeleted < 1)
                 return null;
             return word;
@@ -343,8 +196,7 @@ public class MyInputMethodService extends InputMethodService
             if (deletedWord == null) return;
             MyInputMethodService service = serviceReference.get();
             if (service == null) return;
-
-            // TODO service.imeContainer.removeCandidate(deletedWord);
+            service.imeContainer.removeCandidate(index);
         }
     }
 }

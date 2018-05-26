@@ -9,6 +9,10 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 //import android.util.Log;
 
 /**
@@ -155,6 +159,42 @@ public class UserDictionary {
             return resolver.query(CONTENT_URI, projection, selection,
                     selectionArgs, null);
 
+        }
+
+        /**
+         * Queries the dictionary and returns a list of words that follow the
+         * requested word.
+         *
+         * @param context
+         *            the current application context
+         * @param word
+         *            the word to search
+         */
+        public static List<String> getFollowing(Context context, String word) {
+
+            // error checking
+            if (TextUtils.isEmpty(word)) {
+                return new ArrayList<>();
+            }
+
+            // General purpose
+            final ContentResolver resolver = context.getContentResolver();
+            String[] projection = new String[] { FOLLOWING };
+            String selection = WORD + "=?";
+            String[] selectionArgs = { word };
+            Cursor cursor = resolver.query(CONTENT_URI, projection, selection,
+                    selectionArgs, null);
+            if (cursor == null) return new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                int followingIndex = cursor.getColumnIndex(FOLLOWING);
+                String followingString = cursor.getString(followingIndex);
+                cursor.close();
+                String[] array = followingString.split(",");
+                return new ArrayList<>(Arrays.asList(array));
+            } else {
+                cursor.close();
+                return new ArrayList<>();
+            }
         }
 
         /**
@@ -364,6 +404,35 @@ public class UserDictionary {
             ContentValues values = new ContentValues(1);
             values.put(FREQUENCY, newFrequency);
             return resolver.update(uri, values, null, null);
+        }
+
+        /**
+         * Increments the frequency of a word.
+         *
+         * @param context
+         *            the current application context
+         * @param word
+         *            the word whose frequency to increment
+         *
+         */
+        public static int incrementFrequency(Context context, String word) {
+
+            Cursor cursor = queryWord(context, word);
+            if (cursor == null)
+                return -1;
+
+            if  (!cursor.moveToFirst()) {
+                cursor.close();
+                return -1;
+            }
+
+            long id = cursor.getLong(cursor.getColumnIndex(UserDictionary.Words._ID));
+            int frequency = cursor.getInt(cursor.getColumnIndex(UserDictionary.Words.FREQUENCY));
+            cursor.close();
+
+            frequency++;
+
+            return updateFrequency(context, id, frequency);
         }
 
         /**

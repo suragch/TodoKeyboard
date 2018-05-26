@@ -16,9 +16,9 @@ public class DatabaseManager {
 
     private DatabaseHelper mHelper;
 
-    DatabaseManager(Context context) {
-        this.mHelper = new DatabaseHelper(context);
-    }
+//    DatabaseManager(Context context) {
+//        this.mHelper = new DatabaseHelper(context);
+//    }
 
     public void touchDatabase() {
         SQLiteDatabase db = mHelper.getReadableDatabase();

@@ -103,6 +103,10 @@ public class UserDictionary {
          */
         public static final String DEFAULT_SORT_ORDER = FREQUENCY + " DESC";
 
+        public static void touchDatabase() {
+
+        }
+
         /**
          * Queries the dictionary and returns all the words and values words.
          * This is for testing so only return a concatenated string
@@ -189,6 +193,8 @@ public class UserDictionary {
                 int followingIndex = cursor.getColumnIndex(FOLLOWING);
                 String followingString = cursor.getString(followingIndex);
                 cursor.close();
+                if (TextUtils.isEmpty(followingString))
+                    return new ArrayList<>();
                 String[] array = followingString.split(",");
                 return new ArrayList<>(Arrays.asList(array));
             } else {
@@ -266,6 +272,50 @@ public class UserDictionary {
         }
 
         /**
+         * Adds multiple words to the dictionary
+         *
+         * @param context
+         *            the current application context
+         * @param words
+         *            the words to add to the dictionary
+         *
+         * @return number of inserted entries
+         *
+         */
+        // todo what if there are duplicate words?
+        public static int addMultipleWords(Context context, List<String> words) {
+
+            final ContentResolver resolver = context.getContentResolver();
+
+            if (words == null || words.size() == 0) {
+                return 0;
+            }
+
+            // TODO final int MAX_BATCH_SIZE = 200;
+            // int batchSize = Math.min(words.size(), MAX_BATCH_SIZE);
+            ContentValues[] valueList = new ContentValues[words.size()];
+            int i = 0;
+            for (String word : words) {
+                ContentValues values = new ContentValues();
+                values.put(WORD, word);
+                valueList[i] = values;
+                i++;
+            }
+
+            return resolver.bulkInsert(CONTENT_URI, valueList);
+//
+//            // returns ID
+//            insertCount = ContentProviderOwn.getAppContext().getContentResolver()
+//                    .bulkInsert(ContentProviderOwn.MEASUREMENTS_URI_BASE, valueList);
+//
+//            values.put(WORD, word);
+//            values.put(FREQUENCY, frequency);
+//            values.put(FOLLOWING, following);
+//
+//            return resolver.insert(CONTENT_URI, values);
+        }
+
+        /**
          * Changes the following suggestions of a word. Adds the following word
          * if it doesn't exist or makes sure it is first in the list if it does
          * exist.
@@ -278,12 +328,11 @@ public class UserDictionary {
          *            the following word to add
          *
          */
-        public static int addFollowing(Context context, String word,
-                String followingWord) {
+        public static int addFollowing(Context context, String word, String followingWord) {
 
             // do error checking on input params
             if (TextUtils.isEmpty(word) || TextUtils.isEmpty(followingWord)) {
-                Log.e("UserDictionary", "Empty word");
+                return 0;
             }
 
             // Get following words string

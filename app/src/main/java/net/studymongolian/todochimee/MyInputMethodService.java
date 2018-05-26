@@ -1,5 +1,6 @@
 package net.studymongolian.todochimee;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.inputmethodservice.InputMethodService;
@@ -22,6 +23,7 @@ public class MyInputMethodService extends InputMethodService
 
     ImeContainer imeContainer;
 
+    @SuppressLint("InflateParams") // there is apparently no root view to pass in as the parent?
     @Override
     public View onCreateInputView() {
         LayoutInflater inflater = getLayoutInflater();
@@ -58,10 +60,16 @@ public class MyInputMethodService extends InputMethodService
         new AddOrUpdateDictionaryWordsTask(this).execute(word, previousWord);
     }
 
-    // TODO
     @Override
     public void onCandidateClick(int position, String word, String previousWordInEditor) {
+        addSpace();
         new RespondToCandidateClick(this).execute(word, previousWordInEditor);
+    }
+
+    private void addSpace() {
+        InputConnection ic = getCurrentInputConnection();
+        if (ic == null) return;
+        ic.commitText(" ", 1);
     }
 
     @Override

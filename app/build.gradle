@@ -28,5 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation 'net.studymongolian:mongol-library:1.7.0'
+    implementation 'net.studymongolian:mongol-library:1.7.2'
 }

@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        DatabaseManager db = new DatabaseManager(this);
-        db.touchDatabase();
+//        DatabaseManager db = new DatabaseManager(this);
+//        db.touchDatabase();
     }
 
     @Override
@@ -77,16 +77,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test() {
-        DatabaseManager db = new DatabaseManager(this);
-        List<Word> words = db.getAllWords();
-        StringBuilder builder = new StringBuilder();
-        for (Word word : words) {
-            String line = word.getWord()
-                    + " " + word.getFrequency()
-                    + " " + word.getFollowing() + "\n";
-            builder.append(line);
-        }
-        Log.i("TESTING", "test: " + builder.toString());
+//        DatabaseManager db = new DatabaseManager(this);
+//        List<Word> words = db.getAllWords();
+//        StringBuilder builder = new StringBuilder();
+//        for (Word word : words) {
+//            String line = word.getWord()
+//                    + " " + word.getFrequency()
+//                    + " " + word.getFollowing() + "\n";
+//            builder.append(line);
+//        }
+        String db = UserDictionary.Words.getAllWords(this);
+        Log.i("TESTING", "test: " + db);
     }
 
 

@@ -18,12 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:padding="8dp">
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
@@ -40,6 +40,12 @@
 
 
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/testing"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"

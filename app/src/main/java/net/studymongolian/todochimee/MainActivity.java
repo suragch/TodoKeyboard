@@ -42,12 +42,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        initDatabase();
+
         if (keyboardIsEnabled()) {
             MongolLabel activateButton = findViewById(R.id.btnActivate);
             activateButton.setVisibility(View.GONE);
         }
 
         editText = findViewById(R.id.editText);
+    }
+
+    private void initDatabase() {
+        DatabaseManager db = new DatabaseManager(this);
+        db.touchDatabase();
     }
 
     @Override
@@ -81,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i("TESTING", "test: " + builder.toString());
     }
+
 
 
     private boolean keyboardIsEnabled() {

@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:displayName="ᡏᡆᡊᡎᡆᠯ"
+        app:candidatesLocation="horizontal_top"
         app:keyBorderColor="#000000"
         app:keyBorderRadius="3dp"
         app:keyBorderWidth="1px"

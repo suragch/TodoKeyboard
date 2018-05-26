@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManager {
+public class DatabaseManagerDeleteme {
 
     private DatabaseHelper mHelper;
 
@@ -20,6 +20,10 @@ public class DatabaseManager {
         this.mHelper = new DatabaseHelper(context);
     }
 
+    public void touchDatabase() {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        db.close();
+    }
 
     public List<Word> getAllWords() {
 

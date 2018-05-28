@@ -73,7 +73,6 @@ public class MyInputMethodService extends InputMethodService
     @Override
     public void onCandidateLongClick(int position, String text, String previousWordInEditor) {
         new DeleteWord(this, position).execute(text, previousWordInEditor);
-        // FIXME word not getting deleted from following of previous word
     }
 
     private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
@@ -140,8 +139,7 @@ public class MyInputMethodService extends InputMethodService
 
         int id = UserDictionary.Words.incrementFrequency(context, word);
         if (id < 0) {
-            UserDictionary.Words.addWord(context, word,
-                    UserDictionary.Words.DEFAULT_FREQUENCY, null);
+            UserDictionary.Words.addWord(context, word);
         }
 
     }

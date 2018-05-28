@@ -36,7 +36,6 @@ public class HelpActivity extends AppCompatActivity {
 
         try {
             String fileText = readFromAssets(this, FILE);
-            //Spanned html = Html.fromHtml(fileText);
             textView.setText(fileText);
         } catch (IOException e) {
             e.printStackTrace();

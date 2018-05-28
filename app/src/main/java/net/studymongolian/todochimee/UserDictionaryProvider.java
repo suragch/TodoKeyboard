@@ -63,7 +63,7 @@ public class UserDictionaryProvider extends ContentProvider {
                     + UserDictionary.Words.FREQUENCY + " INTEGER DEFAULT 1,"
                     + UserDictionary.Words.FOLLOWING + " TEXT NOT NULL DEFAULT ''"
                     + ");");
-            //initWithData(db);
+            initWithData(db);
         }
 
         private void initWithData(SQLiteDatabase db) {
@@ -95,7 +95,7 @@ public class UserDictionaryProvider extends ContentProvider {
             try {
 
                 db.beginTransaction();
-                String sql = "INSERT INTO " + USERDICT_TABLE_NAME +
+                String sql = "INSERT OR IGNORE INTO " + USERDICT_TABLE_NAME +
                         " (" + UserDictionary.Words.WORD + ") VALUES (?)";
                 SQLiteStatement statement = db.compileStatement(sql);
 

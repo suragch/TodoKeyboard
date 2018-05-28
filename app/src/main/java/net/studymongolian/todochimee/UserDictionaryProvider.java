@@ -95,8 +95,8 @@ public class UserDictionaryProvider extends ContentProvider {
             try {
 
                 db.beginTransaction();
-                String sql = "INSERT INTO " + UserDictionaryEntry.TABLE_NAME +
-                        " (" + UserDictionaryEntry.WORD + ") VALUES (?)";
+                String sql = "INSERT INTO " + USERDICT_TABLE_NAME +
+                        " (" + UserDictionary.Words.WORD + ") VALUES (?)";
                 SQLiteStatement statement = db.compileStatement(sql);
 
                 for (String word : words) {

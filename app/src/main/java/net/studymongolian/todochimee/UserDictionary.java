@@ -21,14 +21,15 @@ import java.util.List;
  */
 public class UserDictionary {
 
-    /** Authority string for this provider. */
+    /**
+     * Authority string for this provider.
+     */
     public static final String AUTHORITY = "net.studymongolian.todochimee.user_dictionary";
 
     /**
      * The content:// style URL for this provider
      */
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
-
 
 
     private static final int FREQUENCY_MIN = 0;
@@ -83,10 +84,8 @@ public class UserDictionary {
          */
         public static final int DEFAULT_FREQUENCY = 1;
 
-        /**
-         * The default frequency for a new word.
-         */
-        public static final int UNDEFINED_FREQUENCY = -1;
+        // can I delete this
+        //private static final int UNDEFINED_FREQUENCY = -1;
 
         /**
          * The following words column. A comma delimited list of words that
@@ -103,16 +102,13 @@ public class UserDictionary {
          */
         public static final String DEFAULT_SORT_ORDER = FREQUENCY + " DESC";
 
-        public static void touchDatabase() {
-
-        }
+        private static final String FOLLOWING_STRING_DELIMITER = ",";
 
         /**
          * Queries the dictionary and returns all the words and values words.
          * This is for testing so only return a concatenated string
          *
-         * @param context
-         *            the current application context
+         * @param context the current application context
          */
         public static String getAllWords(Context context) {
 
@@ -142,10 +138,8 @@ public class UserDictionary {
          * Queries the dictionary and returns a cursor with all matches. But
          * there should be no more than one match.
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word to search
+         * @param context the current application context
+         * @param word    the word to search
          */
         public static Cursor queryWord(Context context, String word) {
 
@@ -156,10 +150,10 @@ public class UserDictionary {
 
             // General purpose
             final ContentResolver resolver = context.getContentResolver();
-            String[] projection = new String[] { _ID, WORD, FREQUENCY,
-                    FOLLOWING };
+            String[] projection = new String[]{_ID, WORD, FREQUENCY,
+                    FOLLOWING};
             String selection = WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = {word};
             return resolver.query(CONTENT_URI, projection, selection,
                     selectionArgs, null);
 
@@ -169,10 +163,8 @@ public class UserDictionary {
          * Queries the dictionary and returns a list of words that follow the
          * requested word.
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word to search
+         * @param context the current application context
+         * @param word    the word to search
          */
         public static List<String> getFollowing(Context context, String word) {
 
@@ -183,9 +175,9 @@ public class UserDictionary {
 
             // General purpose
             final ContentResolver resolver = context.getContentResolver();
-            String[] projection = new String[] { FOLLOWING };
+            String[] projection = new String[]{FOLLOWING};
             String selection = WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = {word};
             Cursor cursor = resolver.query(CONTENT_URI, projection, selection,
                     selectionArgs, null);
             if (cursor == null) return new ArrayList<>();
@@ -195,7 +187,7 @@ public class UserDictionary {
                 cursor.close();
                 if (TextUtils.isEmpty(followingString))
                     return new ArrayList<>();
-                String[] array = followingString.split(",");
+                String[] array = followingString.split(FOLLOWING_STRING_DELIMITER);
                 return new ArrayList<>(Arrays.asList(array));
             } else {
                 cursor.close();
@@ -207,10 +199,8 @@ public class UserDictionary {
          * Queries the dictionary and returns a cursor with all matches of words that start with
          * the given prefix.
          *
-         * @param context
-         *            the current application context
-         * @param prefix
-         *            the prefix to search
+         * @param context the current application context
+         * @param prefix  the prefix to search
          */
         public static Cursor queryPrefix(Context context, String prefix) {
 
@@ -220,9 +210,9 @@ public class UserDictionary {
             }
 
             final ContentResolver resolver = context.getContentResolver();
-            String[] projection = new String[] { _ID, WORD, FREQUENCY };
+            String[] projection = new String[]{_ID, WORD, FREQUENCY};
             String selection = WORD + " LIKE ?";
-            String[] selectionArgs = { prefix + "%"};
+            String[] selectionArgs = {prefix + "%"};
 
             return resolver.query(CONTENT_URI, projection, selection, selectionArgs, DEFAULT_SORT_ORDER);
         }
@@ -231,18 +221,14 @@ public class UserDictionary {
          * Adds a word to the dictionary, with the given frequency and following
          * words.
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word to add to the dictionary. This should not be null
-         *            or empty.
-         * @param frequency
-         *            the frequency of the word.
-         * @param following
-         *            the word suggestions for following words
+         * @param context   the current application context
+         * @param word      the word to add to the dictionary. This should not be null
+         *                  or empty.
+         * @param frequency the frequency of the word.
+         * @param following the word suggestions for following words
          */
         public static Uri addWord(Context context, String word, int frequency,
-                String following) {
+                                  String following) {
 
             final ContentResolver resolver = context.getContentResolver();
 
@@ -274,13 +260,9 @@ public class UserDictionary {
         /**
          * Adds multiple words to the dictionary
          *
-         * @param context
-         *            the current application context
-         * @param words
-         *            the words to add to the dictionary
-         *
+         * @param context the current application context
+         * @param words   the words to add to the dictionary
          * @return number of inserted entries
-         *
          */
         // todo what if there are duplicate words?
         public static int addMultipleWords(Context context, List<String> words) {
@@ -303,16 +285,6 @@ public class UserDictionary {
             }
 
             return resolver.bulkInsert(CONTENT_URI, valueList);
-//
-//            // returns ID
-//            insertCount = ContentProviderOwn.getAppContext().getContentResolver()
-//                    .bulkInsert(ContentProviderOwn.MEASUREMENTS_URI_BASE, valueList);
-//
-//            values.put(WORD, word);
-//            values.put(FREQUENCY, frequency);
-//            values.put(FOLLOWING, following);
-//
-//            return resolver.insert(CONTENT_URI, values);
         }
 
         /**
@@ -320,13 +292,9 @@ public class UserDictionary {
          * if it doesn't exist or makes sure it is first in the list if it does
          * exist.
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word whose following list needs updating
-         * @param followingWord
-         *            the following word to add
-         *
+         * @param context       the current application context
+         * @param word          the word whose following list needs updating
+         * @param followingWord the following word to add
          */
         public static int addFollowing(Context context, String word, String followingWord) {
 
@@ -339,9 +307,9 @@ public class UserDictionary {
             long wordId = -1;
             String followingString = "";
             final ContentResolver resolver = context.getContentResolver();
-            String[] projection = new String[] { _ID, FOLLOWING };
+            String[] projection = new String[]{_ID, FOLLOWING};
             String selection = WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = {word};
             Cursor cursor = null;
             try {
                 cursor = resolver.query(CONTENT_URI, projection, selection,
@@ -364,7 +332,7 @@ public class UserDictionary {
 
             // if followingWord is already first then quit
             if (followingString.equals(followingWord)
-                    || followingString.startsWith(followingWord + ",")) {
+                    || followingString.startsWith(followingWord + FOLLOWING_STRING_DELIMITER)) {
 
                 return 0;
             }
@@ -380,63 +348,11 @@ public class UserDictionary {
         }
 
         /**
-         * Updates the frequency or following words of a word.
-         *
-         * @param context
-         *            the current application context
-         * @param wordId
-         *            the id of the word to update
-         * @param frequency
-         *            the frequency of the word.
-         * @param following
-         *            the word suggestions for following words
-         */
-        public static int updateWord(Context context, long wordId,
-                int frequency, String following) {
-
-            final ContentResolver resolver = context.getContentResolver();
-
-            if (wordId < 0) {
-                return -1;
-            }
-
-            if (frequency > FREQUENCY_MAX)
-                frequency = FREQUENCY_MAX;
-
-            if (following == null) {
-                following = "";
-            }
-
-            // set content values
-            ContentValues values = new ContentValues();
-            if (frequency != UNDEFINED_FREQUENCY) {
-                values.put(FREQUENCY, frequency);
-                if (!TextUtils.isEmpty(following)) {
-                    values.put(FOLLOWING, following);
-                }
-            } else {
-                if (!TextUtils.isEmpty(following)) {
-                    values.put(FOLLOWING, following);
-                } else {
-                    // both are null/empty
-                    return -1;
-                }
-            }
-
-            Uri uri = ContentUris.withAppendedId(CONTENT_URI, wordId);
-            return resolver.update(uri, values, null, null);
-        }
-
-        /**
          * Changes the frequency number of a word. Usually for incrementing.
          *
-         * @param context
-         *            the current application context
-         * @param wordId
-         *            the row id of the word whose frequency to increment
-         * @param newFrequency
-         *            the new value for the word frequency
-         *
+         * @param context      the current application context
+         * @param wordId       the row id of the word whose frequency to increment
+         * @param newFrequency the new value for the word frequency
          */
         public static int updateFrequency(Context context, long wordId, int newFrequency) {
 
@@ -458,11 +374,8 @@ public class UserDictionary {
         /**
          * Increments the frequency of a word.
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word whose frequency to increment
-         *
+         * @param context the current application context
+         * @param word    the word whose frequency to increment
          */
         public static int incrementFrequency(Context context, String word) {
 
@@ -470,7 +383,7 @@ public class UserDictionary {
             if (cursor == null)
                 return -1;
 
-            if  (!cursor.moveToFirst()) {
+            if (!cursor.moveToFirst()) {
                 cursor.close();
                 return -1;
             }
@@ -488,16 +401,12 @@ public class UserDictionary {
          * Changes the following string of a word. Usually for updating after
          * delete. Other types of updates can use addFollowing().
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word whose following words to change
-         * @param newFollowingList
-         *            a comma delimited list of following words
-         *
+         * @param context          the current application context
+         * @param word             the word whose following words to change
+         * @param newFollowingList a comma delimited list of following words
          */
-        public static int updateFollowing(Context context, String word,
-                String newFollowingList) {
+        static int updateFollowing(Context context, String word,
+                                   String newFollowingList) {
 
             if (TextUtils.isEmpty(word)) {
                 return -1;
@@ -507,18 +416,61 @@ public class UserDictionary {
             ContentValues values = new ContentValues(1);
             values.put(FOLLOWING, newFollowingList);
             String where = WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = {word};
             return resolver.update(CONTENT_URI, values, where, selectionArgs);
+        }
+
+        /**
+         * Changes the following string of a word by removing the following word from it.
+         *
+         * @param context       the current application context
+         * @param word          the word whose following word to remove
+         * @param followingWord the word to remove from the following string
+         * @return the number of following words removed
+         */
+        public static int deleteFollowingWord(Context context, String word, String followingWord) {
+            Cursor cursor = queryWord(context, word);
+            if (cursor == null)
+                return 0;
+
+            if (!cursor.moveToFirst()) {
+                cursor.close();
+                return 0;
+            }
+
+            String followingString = cursor.getString(cursor.getColumnIndex(Words.FOLLOWING));
+            cursor.close();
+
+            followingString = removeWordFromFollowingString(followingString, followingWord);
+            int result = updateFollowing(context, word, followingString);
+            return (result < 0) ? 0 : 1;
+        }
+
+        private static String removeWordFromFollowingString(String followingString, String wordToRemove) {
+            if (TextUtils.isEmpty(followingString)) return "";
+            if (followingString.equals(wordToRemove)) return "";
+
+            String[] followingSplit = followingString.split(FOLLOWING_STRING_DELIMITER);
+            StringBuilder builder = new StringBuilder();
+            int length = followingSplit.length;
+            for (int i = 0; i < length; i++) {
+                String item = followingSplit[i];
+                if (item.equals(wordToRemove))
+                    continue;
+                builder.append(item);
+                if (i != length - 1) {
+                    builder.append(FOLLOWING_STRING_DELIMITER);
+                }
+            }
+            return builder.toString();
         }
 
         /**
          * Deletes a word from the dictionary database
          *
-         * @param context
-         *            the current application context
-         * @param word
-         *            the word to delete from the dictionary. This should not be
-         *            null or empty.
+         * @param context the current application context
+         * @param word    the word to delete from the dictionary. This should not be
+         *                null or empty.
          */
         public static int deleteWord(Context context, String word) {
 
@@ -529,7 +481,7 @@ public class UserDictionary {
             }
 
             String where = WORD + "=?";
-            String[] selectionArgs = { word };
+            String[] selectionArgs = {word};
 
             return resolver.delete(CONTENT_URI, where, selectionArgs);
         }
@@ -537,11 +489,9 @@ public class UserDictionary {
         /**
          * Deletes a word from the dictionary database
          *
-         * @param context
-         *            the current application context
-         * @param wordId
-         *            the table row id of the word to delete from the
-         *            dictionary.
+         * @param context the current application context
+         * @param wordId  the table row id of the word to delete from the
+         *                dictionary.
          */
         public static int deleteWord(Context context, long wordId) {
 
@@ -556,27 +506,25 @@ public class UserDictionary {
             return resolver.delete(uri, null, null);
         }
 
-        private static String reorderFollowing(String wordToAdd,
-                String followingList) {
+        private static String reorderFollowing(String wordToAdd, String followingList) {
 
-            if (TextUtils.isEmpty(followingList)) {
-                return wordToAdd;
-            } else {
-                String[] followingSplit = followingList.split(",");
-                StringBuilder builder = new StringBuilder();
-                builder.append(wordToAdd);
-                int counter = 0;
-                for (String item : followingSplit) {
-                    if (!item.equals(wordToAdd)) {
-                        builder.append(",");
-                        builder.append(item);
-                    }
-                    counter++;
-                    if (counter >= MAX_FOLLOWING_WORDS)
-                        break;
+            if (TextUtils.isEmpty(followingList)) return wordToAdd;
+
+            String[] followingSplit = followingList.split(FOLLOWING_STRING_DELIMITER);
+            StringBuilder builder = new StringBuilder();
+            builder.append(wordToAdd);
+            int counter = 0;
+            for (String item : followingSplit) {
+                if (!item.equals(wordToAdd)) {
+                    builder.append(FOLLOWING_STRING_DELIMITER);
+                    builder.append(item);
                 }
-                return builder.toString();
+                counter++;
+                if (counter >= MAX_FOLLOWING_WORDS)
+                    break;
             }
+            return builder.toString();
+
         }
     }
 }

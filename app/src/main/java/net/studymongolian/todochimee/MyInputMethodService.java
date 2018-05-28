@@ -9,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import net.studymongolian.mongollibrary.ImeContainer;
-import net.studymongolian.mongollibrary.MongolToast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -73,9 +71,9 @@ public class MyInputMethodService extends InputMethodService
     }
 
     @Override
-    public void onCandidateLongClick(int position, String text) {
-        new DeleteWord(this, position).execute(text);
-        MongolToast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    public void onCandidateLongClick(int position, String text, String previousWordInEditor) {
+        new DeleteWord(this, position).execute(text, previousWordInEditor);
+        // FIXME word not getting deleted from following of previous word
     }
 
     private static class GetWordsStartingWith extends AsyncTask<String, Integer, List<String>> {
@@ -111,6 +109,8 @@ public class MyInputMethodService extends InputMethodService
 
             if (result.size() > 0)
                 service.imeContainer.setCandidates(result);
+            else
+                service.imeContainer.clearCandidates();
         }
     }
 
@@ -179,7 +179,7 @@ public class MyInputMethodService extends InputMethodService
         }
     }
 
-    private static class DeleteWord extends AsyncTask<String, Integer, String> {
+    private static class DeleteWord extends AsyncTask<String, Integer, Void> {
 
         private WeakReference<MyInputMethodService> serviceReference;
         private int index;
@@ -190,18 +190,17 @@ public class MyInputMethodService extends InputMethodService
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
             String word = params[0];
+            String previousWord = params[1];
             Context context = serviceReference.get();
-            int numberOfWordsDeleted = UserDictionary.Words.deleteWord(context, word);
-            if (numberOfWordsDeleted < 1)
-                return null;
-            return word;
+            UserDictionary.Words.deleteWord(context, word);
+            UserDictionary.Words.deleteFollowingWord(context, previousWord, word);
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String deletedWord) {
-            if (deletedWord == null) return;
+        protected void onPostExecute(Void results) {
             MyInputMethodService service = serviceReference.get();
             if (service == null) return;
             service.imeContainer.removeCandidate(index);

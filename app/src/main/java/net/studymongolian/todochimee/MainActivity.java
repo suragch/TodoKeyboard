@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 //            builder.append(line);
 //        }
         String db = UserDictionary.Words.getAllWords(this);
-        Log.i("TESTING", "test: " + db);
+        Log.i("TESTING", "test: \n" + db);
     }
 
 

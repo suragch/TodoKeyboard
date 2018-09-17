@@ -67,14 +67,12 @@ public class UserDictionaryProvider extends ContentProvider {
         }
 
         private void initWithData(SQLiteDatabase db) {
-            Log.i(TAG, "doInBackground: inserting words starting");
             try {
                 List<String> allWords = importFile(context);
                 bulkInsert(db, allWords);
             } catch (Exception e) {
                 Log.e("app", e.toString());
             }
-            Log.i(TAG, "doInBackground: inserting words finished");
         }
 
         private List<String> importFile(Context context) throws IOException {

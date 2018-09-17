@@ -174,99 +174,128 @@ public class KeyboardTodo extends Keyboard {
 
     private void setKeyValues() {
 
-        rotatePrimaryText();
+        rotatePrimaryTextForSelectedKeys();
+        rotateSecondaryTextForSelectedKeys();
 
         // Row 1
 
         mKeyQ.setText(MongolCode.Uni.TODO_TSA);
+        mKeyQ.setSwipeUpText(MongolCode.Uni.TODO_CHA);
         mKeyQ.setSubText(MongolCode.Uni.TODO_CHA);
 
         mKeyW.setText(MongolCode.Uni.TODO_WA);
+        mKeyW.setSwipeUpText("");
         mKeyW.setSubText("");
 
         mKeyE.setText(MongolCode.Uni.TODO_E);
+        mKeyE.setSwipeUpText("");
         mKeyE.setSubText("");
 
         mKeyR.setText(MongolCode.Uni.RA);
+        mKeyR.setSwipeUpText("");
         mKeyR.setSubText("");
 
         mKeyT.setText(MongolCode.Uni.TODO_TA);
+        mKeyT.setSwipeUpText("");
         mKeyT.setSubText("");
 
         mKeyY.setText(MongolCode.Uni.TODO_YA);
+        mKeyY.setSwipeUpText("");
         mKeyY.setSubText("");
 
         mKeyU.setText(MongolCode.Uni.TODO_UE);
+        mKeyU.setSwipeUpText("");
         mKeyU.setSubText("");
 
         mKeyI.setText(MongolCode.Uni.TODO_I);
+        mKeyI.setSwipeUpText("");
         mKeyI.setSubText("");
 
         mKeyO.setText(MongolCode.Uni.TODO_OE);
+        mKeyO.setSwipeUpText("");
         mKeyO.setSubText("");
 
         mKeyP.setText(MongolCode.Uni.TODO_PA);
+        mKeyP.setSwipeUpText("");
         mKeyP.setSubText("");
 
         // Row 2
         mKeyA.setText(MongolCode.Uni.A);
+        mKeyA.setSwipeUpText("");
         mKeyA.setSubText("");
 
         mKeyS.setText(MongolCode.Uni.SA);
+        mKeyS.setSwipeUpText("");
         mKeyS.setSubText("");
 
         mKeyD.setText(MongolCode.Uni.TODO_DA);
+        mKeyD.setSwipeUpText("");
         mKeyD.setSubText("");
 
         mKeyF.setText(MongolCode.Uni.WA);
+        mKeyF.setSwipeUpText("");
         mKeyF.setSubText("");
 
         mKeyG.setText(MongolCode.Uni.TODO_GA);
+        mKeyG.setSwipeUpText(MongolCode.Uni.TODO_GAA);
         mKeyG.setSubText(MongolCode.Uni.TODO_GAA);
 
         mKeyH.setText(MongolCode.Uni.TODO_QA);
+        mKeyH.setSwipeUpText(MongolCode.Uni.TODO_HAA);
         mKeyH.setSubText(MongolCode.Uni.TODO_HAA);
 
         mKeyJ.setText(MongolCode.Uni.TODO_JA);
+        mKeyJ.setSwipeUpText(MongolCode.Uni.TODO_JIA);
         mKeyJ.setSubText(MongolCode.Uni.TODO_JIA);
 
         mKeyK.setText(MongolCode.Uni.TODO_KA);
+        mKeyK.setSwipeUpText("");
         mKeyK.setSubText("");
 
         mKeyL.setText(MongolCode.Uni.LA);
+        mKeyL.setSwipeUpText(MongolCode.Uni.LHA);
         mKeyL.setSubText(MongolCode.Uni.LHA);
 
         mKeyNg.setText(MongolCode.Uni.TODO_ANG);
+        mKeyNg.setSwipeUpText("");
         mKeyNg.setSubText("");
 
         // Row 3
 
         mKeyZ.setText(MongolCode.Uni.CHA);
+        mKeyZ.setSwipeUpText(MongolCode.Uni.TODO_DZA);
         mKeyZ.setSubText(MongolCode.Uni.TODO_DZA);
 
         mKeyX.setText(MongolCode.Uni.SHA);
+        mKeyX.setSwipeUpText("");
         mKeyX.setSubText("");
 
         mKeyC.setText(MongolCode.Uni.TODO_O);
+        mKeyC.setSwipeUpText("");
         mKeyC.setSubText("");
 
         mKeyV.setText(MongolCode.Uni.TODO_U);
+        mKeyV.setSwipeUpText("");
         mKeyV.setSubText("");
 
         mKeyB.setText(MongolCode.Uni.TODO_BA);
+        mKeyB.setSwipeUpText("");
         mKeyB.setSubText("");
 
         mKeyN.setText(MongolCode.Uni.NA);
+        mKeyN.setSwipeUpText(MongolCode.Uni.TODO_NIA);
         mKeyN.setSubText(MongolCode.Uni.TODO_NIA);
 
         mKeyM.setText(MongolCode.Uni.TODO_MA);
+        mKeyM.setSwipeUpText("");
         mKeyM.setSubText("");
 
         mKeyLongVowel.setText(MongolCode.Uni.TODO_LONG_VOWEL_SIGN);
+        mKeyLongVowel.setSwipeUpText(MongolCode.Uni.MONGOLIAN_NIRUGU);
         mKeyLongVowel.setSubText(MongolCode.Uni.MONGOLIAN_NIRUGU);
     }
 
-    private void rotatePrimaryText() {
+    private void rotatePrimaryTextForSelectedKeys() {
         mKeyQ.setIsRotatedPrimaryText(true);
         mKeyW.setIsRotatedPrimaryText(true);
         mKeyE.setIsRotatedPrimaryText(true);
@@ -277,102 +306,146 @@ public class KeyboardTodo extends Keyboard {
         mKeyI.setIsRotatedPrimaryText(true);
         mKeyO.setIsRotatedPrimaryText(true);
         mKeyP.setIsRotatedPrimaryText(true);
+        mKeyG.setIsRotatedPrimaryText(true);
         mKeyH.setIsRotatedPrimaryText(true);
+        mKeyJ.setIsRotatedPrimaryText(true);
+        mKeyK.setIsRotatedPrimaryText(true);
+        mKeyL.setIsRotatedPrimaryText(true);
+        mKeyLongVowel.setIsRotatedPrimaryText(true);
     }
 
-    private void setPuncuationKeyValues() {
+    private void rotateSecondaryTextForSelectedKeys() {
+        mKeyH.setIsRotatedSubText(true);
+        mKeyLongVowel.setIsRotatedSubText(true);
+    }
+
+    private void dontRotateSecondaryTextForSelectedKeys() {
+        mKeyH.setIsRotatedSubText(false);
+        mKeyLongVowel.setIsRotatedSubText(false);
+    }
+
+    private void setPunctuationKeyValues() {
 
         dontRotatePrimaryTextForSelectKeys();
+        dontRotateSecondaryTextForSelectedKeys();
 
         // Row 1
 
         mKeyQ.setText("1");
+        mKeyQ.setSwipeUpText("");
         mKeyQ.setSubText("");
 
         mKeyW.setText("2");
+        mKeyW.setSwipeUpText("");
         mKeyW.setSubText("");
 
         mKeyE.setText("3");
+        mKeyE.setSwipeUpText("");
         mKeyE.setSubText("");
 
         mKeyR.setText("4");
+        mKeyR.setSwipeUpText("");
         mKeyR.setSubText("");
 
         mKeyT.setText("5");
+        mKeyT.setSwipeUpText("");
         mKeyT.setSubText("");
 
         mKeyY.setText("6");
+        mKeyY.setSwipeUpText("");
         mKeyY.setSubText("");
 
         mKeyU.setText("7");
+        mKeyU.setSwipeUpText("");
         mKeyU.setSubText("");
 
         mKeyI.setText("8");
+        mKeyI.setSwipeUpText("");
         mKeyI.setSubText("");
 
         mKeyO.setText("9");
+        mKeyO.setSwipeUpText("");
         mKeyO.setSubText("");
 
         mKeyP.setText("0");
+        mKeyP.setSwipeUpText("");
         mKeyP.setSubText("");
 
         // Row 2
 
         mKeyA.setText(MongolCode.Uni.VERTICAL_LEFT_PARENTHESIS);
+        mKeyA.setSwipeUpText(MongolCode.Uni.VERTICAL_LEFT_SQUARE_BRACKET);
         mKeyA.setSubText(MongolCode.Uni.VERTICAL_LEFT_SQUARE_BRACKET);
 
         mKeyS.setText(MongolCode.Uni.VERTICAL_RIGHT_PARENTHESIS);
+        mKeyS.setSwipeUpText(MongolCode.Uni.VERTICAL_RIGHT_SQUARE_BRACKET);
         mKeyS.setSubText(MongolCode.Uni.VERTICAL_RIGHT_SQUARE_BRACKET);
 
         mKeyD.setText(MongolCode.Uni.VERTICAL_LEFT_DOUBLE_ANGLE_BRACKET);
+        mKeyD.setSwipeUpText(MongolCode.Uni.VERTICAL_LEFT_ANGLE_BRACKET);
         mKeyD.setSubText(MongolCode.Uni.VERTICAL_LEFT_ANGLE_BRACKET);
 
         mKeyF.setText(MongolCode.Uni.VERTICAL_RIGHT_DOUBLE_ANGLE_BRACKET);
+        mKeyF.setSwipeUpText(MongolCode.Uni.VERTICAL_RIGHT_ANGLE_BRACKET);
         mKeyF.setSubText(MongolCode.Uni.VERTICAL_RIGHT_ANGLE_BRACKET);
 
         mKeyG.setText("=");
+        mKeyG.setSwipeUpText(KEY_G_PUNCT_SUB);
         mKeyG.setSubText(KEY_G_PUNCT_SUB);
 
         mKeyH.setText("¥");
+        mKeyH.setSwipeUpText(KEY_H_PUNCT_SUB);
         mKeyH.setSubText(KEY_H_PUNCT_SUB);
 
         mKeyJ.setText("'");
+        mKeyJ.setSwipeUpText(KEY_J_PUNCT_SUB);
         mKeyJ.setSubText(KEY_J_PUNCT_SUB);
 
         mKeyK.setText("\"");
+        mKeyK.setSwipeUpText(KEY_K_PUNCT_SUB);
         mKeyK.setSubText(KEY_K_PUNCT_SUB);
 
         mKeyL.setText("#");
+        mKeyL.setSwipeUpText(KEY_L_PUNCT_SUB);
         mKeyL.setSubText(KEY_L_PUNCT_SUB);
 
         mKeyNg.setText("|");
+        mKeyNg.setSwipeUpText(KEY_NG_PUNCT_SUB);
         mKeyNg.setSubText(KEY_NG_PUNCT_SUB);
 
         // Row 3
 
         mKeyZ.setText(MongolCode.Uni.REFERENCE_MARK);
+        mKeyZ.setSwipeUpText(MongolCode.Uni.MONGOLIAN_FOUR_DOTS);
         mKeyZ.setSubText(MongolCode.Uni.MONGOLIAN_FOUR_DOTS);
 
         mKeyX.setText(MongolCode.Uni.MONGOLIAN_BIRGA,
                 MongolCode.Uni.MONGOLIAN_BIRGA);
+        mKeyX.setSwipeUpText(KEY_X_PUNCT_SUB);
         mKeyX.setSubText(KEY_X_PUNCT_SUB);
 
         mKeyC.setText(MongolCode.Uni.MIDDLE_DOT);
+        mKeyC.setSwipeUpText(KEY_C_PUNCT_SUB);
         mKeyC.setSubText(KEY_C_PUNCT_SUB);
 
         mKeyV.setText(MongolCode.Uni.MONGOLIAN_ELLIPSIS);
+        mKeyV.setSwipeUpText(KEY_V_PUNCT_SUB);
         mKeyV.setSubText(KEY_V_PUNCT_SUB);
 
         mKeyB.setText(MongolCode.Uni.VERTICAL_EM_DASH);
+        mKeyB.setSwipeUpText(KEY_B_PUNCT_SUB);
         mKeyB.setSubText(KEY_B_PUNCT_SUB);
 
         mKeyN.setText(MongolCode.Uni.MONGOLIAN_COLON);
+        mKeyN.setSwipeUpText(MongolCode.Uni.VERTICAL_COMMA);
         mKeyN.setSubText(MongolCode.Uni.VERTICAL_COMMA);
 
         mKeyM.setText(MongolCode.Uni.QUESTION_EXCLAMATION_MARK);
+        mKeyM.setSwipeUpText("");
         mKeyM.setSubText("");
 
         mKeyLongVowel.setText("/");
+        mKeyLongVowel.setSwipeUpText(KEY_ZWJ_PUNCT_SUB);
         mKeyLongVowel.setSubText(KEY_ZWJ_PUNCT_SUB);
     }
 
@@ -387,34 +460,44 @@ public class KeyboardTodo extends Keyboard {
         mKeyI.setIsRotatedPrimaryText(false);
         mKeyO.setIsRotatedPrimaryText(false);
         mKeyP.setIsRotatedPrimaryText(false);
+        mKeyG.setIsRotatedPrimaryText(false);
         mKeyH.setIsRotatedPrimaryText(false);
+        mKeyJ.setIsRotatedPrimaryText(false);
+        mKeyK.setIsRotatedPrimaryText(false);
+        mKeyL.setIsRotatedPrimaryText(false);
+        mKeyLongVowel.setIsRotatedPrimaryText(false);
     }
 
     private void setNonChangingKeyValues() {
         mKeyQuote.setText(MongolCode.Uni.VERTICAL_LEFT_WHITE_CORNER_BRACKET);
+        mKeyQuote.setSwipeUpText(MongolCode.Uni.VERTICAL_RIGHT_WHITE_CORNER_BRACKET);
         mKeyQuote.setSubText(MongolCode.Uni.VERTICAL_RIGHT_WHITE_CORNER_BRACKET);
 
         mKeyComma.setText(MongolCode.Uni.VERTICAL_COMMA);
+        mKeyComma.setSwipeUpText(MongolCode.Uni.VERTICAL_SEMICOLON);
         mKeyComma.setSubText(MongolCode.Uni.VERTICAL_SEMICOLON);
 
         mKeySpace.setText(" ");
         if (hasCandidatesView()) {
             mKeySpace.setSubText(KEY_SPACE_SUB_DISPLAY);
+            mKeySpace.setSwipeUpText("");
         }
 
         mKeyPeriod.setText(MongolCode.Uni.VERTICAL_IDEOGRAPHIC_FULL_STOP);
+        mKeyPeriod.setSwipeUpText(MongolCode.Uni.MIDDLE_DOT);
         mKeyPeriod.setSubText(MongolCode.Uni.MIDDLE_DOT);
 
         mKeyQuestion.setText(MongolCode.Uni.VERTICAL_QUESTION_MARK);
+        mKeyQuestion.setSwipeUpText(MongolCode.Uni.VERTICAL_EXCLAMATION_MARK);
         mKeyQuestion.setSubText(MongolCode.Uni.VERTICAL_EXCLAMATION_MARK);
 
         mKeyReturn.setText(NEWLINE);
     }
 
     private void setKeyImages() {
-        mKeyBackspace.setImage(getBackspaceImage());
-        mKeyKeyboard.setImage(getKeyboardImage());
-        mKeyReturn.setImage(getReturnImage());
+        mKeyBackspace.setImage(getBackspaceImage(), getPrimaryTextColor());
+        mKeyKeyboard.setImage(getKeyboardImage(), getPrimaryTextColor());
+        mKeyReturn.setImage(getReturnImage(), getPrimaryTextColor());
     }
 
     private void setListeners() {
@@ -767,12 +850,12 @@ public class KeyboardTodo extends Keyboard {
     private List<PopupKeyCandidate> getCandidatesForG() {
         List<PopupKeyCandidate> candidates = new ArrayList<>();
         if (mIsShowingPunctuation) {
-            candidates.add(new PopupKeyCandidate("+"));
-            candidates.add(new PopupKeyCandidate("-"));
-            candidates.add(new PopupKeyCandidate("×"));
-            candidates.add(new PopupKeyCandidate("÷"));
-            candidates.add(new PopupKeyCandidate("≠"));
-            candidates.add(new PopupKeyCandidate("≈"));
+            candidates.add(new PopupKeyCandidate("+", false));
+            candidates.add(new PopupKeyCandidate("-", false));
+            candidates.add(new PopupKeyCandidate("×", false));
+            candidates.add(new PopupKeyCandidate("÷", false));
+            candidates.add(new PopupKeyCandidate("≠", false));
+            candidates.add(new PopupKeyCandidate("≈", false));
             return candidates;
         }
 
@@ -795,8 +878,8 @@ public class KeyboardTodo extends Keyboard {
     private List<PopupKeyCandidate> getCandidatesForH() {
         List<PopupKeyCandidate> candidates = new ArrayList<>();
         if (mIsShowingPunctuation) {
-            candidates.add(new PopupKeyCandidate("$"));
-            candidates.add(new PopupKeyCandidate("₮"));
+            candidates.add(new PopupKeyCandidate("$", false));
+            candidates.add(new PopupKeyCandidate("₮", false));
             return candidates;
         }
 
@@ -868,7 +951,7 @@ public class KeyboardTodo extends Keyboard {
             candidates.add(new PopupKeyCandidate(
                     "" + MongolCode.Uni.MONGOLIAN_FOUR_DOTS,
                     "" + MongolCode.Uni.MONGOLIAN_FOUR_DOTS));
-            candidates.add(new PopupKeyCandidate("*"));
+            candidates.add(new PopupKeyCandidate("*", false));
             return candidates;
         }
         PopupKeyCandidate dza = new PopupKeyCandidate(
@@ -889,7 +972,7 @@ public class KeyboardTodo extends Keyboard {
     private List<PopupKeyCandidate> getCandidatesForC() {
         List<PopupKeyCandidate> candidates = new ArrayList<>();
         if (mIsShowingPunctuation) {
-            candidates.add(new PopupKeyCandidate(KEY_C_PUNCT_SUB));
+            candidates.add(new PopupKeyCandidate(KEY_C_PUNCT_SUB, false));
             return candidates;
         }
 
@@ -970,7 +1053,7 @@ public class KeyboardTodo extends Keyboard {
     private List<PopupKeyCandidate> getCandidatesForLongVowel() {
         List<PopupKeyCandidate> candidates = new ArrayList<>();
         if (mIsShowingPunctuation) {
-            candidates.add(new PopupKeyCandidate(KEY_ZWJ_PUNCT_SUB));
+            candidates.add(new PopupKeyCandidate(KEY_ZWJ_PUNCT_SUB, false));
             return candidates;
         }
 
@@ -1032,7 +1115,7 @@ public class KeyboardTodo extends Keyboard {
     public void onKeyboardKeyClick() {
         mIsShowingPunctuation = !mIsShowingPunctuation;
         if (mIsShowingPunctuation) {
-            setPuncuationKeyValues();
+            setPunctuationKeyValues();
         } else {
             setKeyValues();
         }

@@ -8,7 +8,7 @@
 
     <!-- 按钮文本 -->
     <string name="button_activate">ᡍᡄᠷᡄᡎᠯᡄᡎᡄ ᡑᡉ ᡆᠷᡇᡇᠯᡍᡇ</string>
-    <string name="button_choose_ime">ᡆᠷᡇᡇᠯᡍᡇ ᠠᠷᡎᠠ ᡅᡎᡅ ᠰᡇᡊᡎᡇᡍᡇ</string>
+    <string name="button_choose_ime">ᡆᠷᡇᡇᠯᡍᡇ ᠠᠷᡎᠠ ᡅᡎᡅ ᠰᡆᡊᡎᡇᡍᡇ</string>
     <string name="button_copy">ᡍᡇᡇᠯᡍᡇ</string>
     <string name="button_paste">ᠨᠠᡃᡍᡇ</string>
     <string name="button_share">ᡍᡇᡋᠠᡃᠯᡔᠠᡍᡇ</string>
@@ -17,6 +17,6 @@
     <string name="text_copied">ᡍᡇᡇᠯᡋᠠᡅ</string>
     <string name="help">ᠬᠠᠪᠰᠣᠷᠣᠮᠵᠢ</string>
     <string name="contact_url">http://www.studymongolian.net/contact-zh/</string>
-    <string name="show_system_keyboards_option">ᠰᡇᡊᡎᡇᡍᡇ</string>
+    <string name="show_system_keyboards_option">ᠰᡆᡊᡎᡇᡍᡇ</string>
 
 </resources>

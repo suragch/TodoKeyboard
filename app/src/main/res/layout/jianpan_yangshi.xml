@@ -14,13 +14,12 @@
         app:keyBorderRadius="3dp"
         app:keyBorderWidth="1px"
         app:keyColor="#ffffff"
-        app:keyImageTheme="light"
         app:keyPressedColor="#b3b3b3"
-        app:keySpacing="3dp"
+        app:keySpacing="2dp"
         app:popupHighlightColor="#dbdbdb"
         app:popupTextColor="#000000"
         app:primaryTextColor="#000000"
-        app:primaryTextSize="30sp"
+        app:primaryTextSize="26sp"
         app:secondaryTextColor="#b3b3b3" />
 
     <net.studymongolian.mongollibrary.KeyboardQwerty
@@ -32,13 +31,12 @@
         app:keyBorderRadius="3dp"
         app:keyBorderWidth="1px"
         app:keyColor="#ffffff"
-        app:keyImageTheme="light"
         app:keyPressedColor="#b3b3b3"
-        app:keySpacing="3dp"
+        app:keySpacing="2dp"
         app:popupHighlightColor="#dbdbdb"
         app:popupTextColor="#000000"
         app:primaryTextColor="#000000"
-        app:primaryTextSize="30sp"
+        app:primaryTextSize="26sp"
         app:secondaryTextColor="#b3b3b3" />
 
 </net.studymongolian.mongollibrary.ImeContainer>

@@ -5,6 +5,7 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -31,6 +32,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final String PREFS_NAME = "TodoPrefsFile";
+    private static final String DRAFT_KEY = "draft";
+    private static final String CURSOR_POSITION_KEY = "cursor_position";
+
     MongolEditText editText;
 
     @Override
@@ -38,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
         if (keyboardIsEnabled()) {
@@ -47,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         editText = findViewById(R.id.editText);
+        editText.requestFocus();
+        setSavedDraft();
+    }
+
+    private void setSavedDraft() {
+        if (editText.getText().length() == 0) {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            String savedText = settings.getString(DRAFT_KEY, "");
+            editText.setText(savedText);
+            int cursorPosition = settings.getInt(CURSOR_POSITION_KEY, 0);
+            if (cursorPosition == 0)
+                cursorPosition = savedText.length();
+            editText.setSelection(cursorPosition);
+        }
     }
 
     @Override
@@ -59,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mi_help:
-                // test();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -68,10 +86,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void test() {
-//        String printout = UserDictionary.Words.getAllWords(this);
-//        Log.i("TESTING", "test: \n" + printout);
-//    }
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // in case user accidentally closes app
+        saveInputWindowDraftToSharedPreferences();
+    }
+
+    private void saveInputWindowDraftToSharedPreferences() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        String text = editText.getText().toString();
+        int cursorPosition = editText.getSelectionStart();
+        editor.putString(DRAFT_KEY, text);
+        editor.putInt(CURSOR_POSITION_KEY, cursorPosition);
+        editor.apply();
+    }
 
     private boolean keyboardIsEnabled() {
         String packageLocal = getPackageName();
